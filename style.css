@@ -1,0 +1,15 @@
+QLineEdit {{
+	min-height: 36px;
+    padding: 8px;
+	font-size: 32px;
+	color: green;
+}}
+QGroupBox{{
+	padding:0px;
+}}
+QVBoxLayout {{
+	border-color: red;
+}}
+QLabel{{
+	font-size: 33px;;
+}}
