@@ -36,7 +36,7 @@ To install Clipboard Manager, you will need to have Python, PyQt5, qt-material a
 
 ### Using the precompiled App
 
-1. Simply download the clipboard-manager file present in this directory and place it in a location of your choice.
+1. Simply download the clipboard-manager file present in the `/dist` directory and place it in a location of your choice.
 
 ## Usage
 
