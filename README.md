@@ -2,6 +2,12 @@
 
 Clipboard Manager is a cross-platform compatible Python application that manages clipboard history. It is built with PyQt5 and allows users to view, search, and manage their clipboard contents in an easy and efficient way. The application is designed to be unobtrusive and runs in the background, ready to be invoked with a simple shortcut.
 
+![Showase Image](showcase-1.png)
+This is a clipboard item!
+I am remembered forever!
+Has it been some time since you copied this? No problem, just use the search.
+I am inserted on click or ENTER press.
+Navigate with arrow keys or swipe gestures!
 ## Features
 
 - Cross-platform compatibility (tested on Linux, untested on other OSes).
@@ -11,6 +17,7 @@ Clipboard Manager is a cross-platform compatible Python application that manages
 - Frameless window design for a sleek look.
 - Ability to copy items back to the clipboard with a single click or keypress.
 - Endless history stored in  SQLite Database.
+- Shows previews of images, different box backgrounds for URLs, text, hex or rgb(a) colors
 
 ## Installation
 
