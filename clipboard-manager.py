@@ -147,10 +147,34 @@ class ClipboardManager(QWidget):
             self.hide()
         elif event.modifiers() == Qt.ControlModifier and event.key() == Qt.Key_F:
             self.searchBar.setFocus()
+        elif event.key() == Qt.Key_Delete or event.key() == Qt.Key_Backspace:
+            self.delete_active_content_from_database() 
         elif event.key() == Qt.Key_Escape:
             self.hide()
         else:
             super().keyPressEvent(event)
+            
+    def delete_active_content_from_database(self):
+        if not self.clipboard_data or self.active_box_index is None:
+            return
+        
+        actual_index = self.active_box_index
+        if self.search_indices:
+            actual_index = self.search_indices[actual_index]
+        
+        if actual_index < len(self.clipboard_data):
+            content = self.clipboard_data.pop(actual_index)
+            self.cursor.execute("DELETE FROM clipboard WHERE data = ?", (content,))
+            self.conn.commit()
+            self.search_indices = [idx for idx in self.search_indices if idx != actual_index]
+            self.search_indices = [idx - 1 if idx > actual_index else idx for idx in self.search_indices]
+            self.update_display_after_deletion()
+
+    def update_display_after_deletion(self):
+        self.slider.setMaximum(len(self.clipboard_data) - 1)
+        self.active_box_index = max(0, min(self.active_box_index, self.slider.maximum()))  # Ensure active_box_index is valid
+        self.display_clipboard_data()
+        self.highlight_and_scroll(self.active_box_index)
 
     def copy_active_content_to_clipboard(self):
     # Check if there is any data in the clipboard list
@@ -242,7 +266,7 @@ class ClipboardManager(QWidget):
                 int(code, 16)
                 return True
             except ValueError:
-                return False
+                return False 
         elif len(code) == 7 and code[0] == '#':
             try:
                 int(code[1:], 16)
@@ -258,6 +282,8 @@ class ClipboardManager(QWidget):
     def copy_clipboard_data(self):
         clipboard = QApplication.clipboard()
         data = clipboard.text()
+        if data.strip() == "":
+            return
         self.clipboard_data.insert(0, data)
 
         self.cursor.execute("INSERT INTO clipboard VALUES (?)", (data,))
@@ -317,5 +343,3 @@ if __name__ == "__main__":
     window = ClipboardManager()
     #window.show()
     sys.exit(app.exec_())
-    
-	
